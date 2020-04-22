@@ -16,8 +16,8 @@ private:
 	Patient * arr;
 
 public:
-	static const int BACK = 0;
-	static const int FRONT = 1;
+	static const int BACK = 1;
+	static const int FRONT = 0;
 
 	LinearList(){}
 
@@ -39,7 +39,20 @@ public:
 		}
 	}
 
-
+	void del(int side)
+	{
+		if(side == FRONT){
+			Patient * temp = new Patient[size-1];
+			for(int i = 1; i < size; i++) temp[i-1] = arr[i];
+			arr = temp;
+			size--;
+		} else /*delete from back*/ {
+			Patient * temp = new Patient[size-1];
+			for(int i = 0; i < size-1; i++) temp[i] = arr[i];
+			arr = temp;
+			size--;
+		}
+	}
 
 	void print()
 	{
