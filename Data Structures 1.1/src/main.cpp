@@ -16,7 +16,7 @@ int main()
 	LinearList list;
 
 	list.add(p);
-	list.add(p1);
+	list.add(p1, LinearList::FRONT);
 	list.add(p2);
 
 	list.print();
