@@ -8,6 +8,8 @@
 #ifndef LINERLIST_H_
 #define LINERLIST_H_
 #include <iostream>
+#include <fstream>
+#include <stdio.h>
 #include "Patient.h"
 
 class LinearList {
@@ -51,6 +53,32 @@ public:
 			for(int i = 0; i < size-1; i++) temp[i] = arr[i];
 			arr = temp;
 			size--;
+		}
+	}
+
+	void write(std::string file)
+	{
+		for(int i = 0; i < size; i++)
+		{
+			arr[i].write(file);
+		}
+	}
+
+	void read(std::string file)
+	{
+		std::fstream ts(file, std::ios::in | std::ios::binary);
+
+		long offset = 0;
+
+		while(true)
+		{
+			Patient temp;
+			ts.seekg(offset, std::ios::beg);
+			if(ts.peek() != EOF)
+			{
+				offset = temp.read(file, offset);
+				add(temp);
+			} else break;
 		}
 	}
 

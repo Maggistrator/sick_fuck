@@ -8,7 +8,10 @@
 #ifndef PATIENT_H_
 #define PATIENT_H_
 #include <string>
+#include <cstring>
 #include <iostream>
+#include <fstream>
+#include <string.h>
 
 class Patient {
 public:
@@ -17,19 +20,64 @@ public:
 
 	int sex = 0;
 	int age = 0;
-	std::string last_name = "Unknown";
-	std::string hometown = "Unknown";
-	std::string diagnosis = "Unknown";
+	char last_name[256]{"Unknown"};
+	char hometown[256]{"Unknown"};
+	char diagnosis[256]{"Unknown"};
 
 	Patient(){}
 
-    Patient(int s, int a, std::string ln, std::string ht, std::string d)
+    Patient(int s, int a, char ln[256], char ht[256], char d[256])
     {
     	sex = s;
     	age = a;
-    	last_name = ln;
-    	hometown = ht;
-    	diagnosis = d;
+    	strcpy(last_name, ln);
+    	strcpy(hometown, ht);
+    	strcpy(diagnosis, d);
+    }
+
+    void write(std::string file)
+    {
+    	   std::ofstream wf;
+    	   wf.open(file, std::ios::out | std::fstream::app | std::ios::binary);
+
+    	   wf.write((char *) &sex, sizeof(int));
+    	   wf.write((char *) &age, sizeof(int));
+
+    	   int lsize = strlen(last_name);
+    	   int hsize = strlen(hometown);
+    	   int dsize = strlen(diagnosis);
+    	   wf.write((char *) &lsize, sizeof(int));
+    	   wf.write((char *) &hsize, sizeof(int));
+    	   wf.write((char *) &dsize, sizeof(int));
+
+    	   wf.write(last_name, sizeof(char) * lsize);
+    	   wf.write(hometown, sizeof(char) * hsize);
+    	   wf.write(diagnosis, sizeof(char) * dsize);
+
+    	   wf.close();
+    }
+
+    long read(std::string file, int offset = 0)
+    {
+		std::ifstream rf(file, std::ios::in | std::ios::binary);
+		rf.seekg(offset, std::ios::beg);
+
+		rf.read((char *) &sex, sizeof(int));
+		rf.read((char *) &age, sizeof(int));
+
+		int lsize, hsize, dsize;
+		rf.read((char *) &lsize, sizeof(int));
+		rf.read((char *) &hsize, sizeof(int));
+		rf.read((char *) &dsize, sizeof(int));
+		rf.read(last_name, sizeof(char) * lsize);
+		rf.read(hometown, sizeof(char) * hsize);
+		rf.read(diagnosis, sizeof(char) * dsize);
+
+		int noffset = rf.tellg();
+
+		rf.close();
+
+		return noffset;
     }
 
     void print()
@@ -40,6 +88,7 @@ public:
     	std::cout << "Диагноз: "<< diagnosis << '\n';
     	std::cout << "Место проживания: "<< hometown << '\n';
     }
+
 };
 
 #endif /* PATIENT_H_ */

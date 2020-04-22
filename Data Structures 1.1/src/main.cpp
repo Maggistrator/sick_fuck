@@ -8,11 +8,13 @@
 #include "linerlist.h"
 #include <iostream>
 
+//TODO: Определить количество иногородних пациентов, прибывших в клинику
+//TODO: Вывести сведения о пациентах пенсионного возраста
 int main()
 {
 	Patient p(Patient::MALE, 10, "Сидоров", "Усть-Залупинск", "Рак жопы");
-	Patient p1(Patient::FEMALE, 10, "Палехова", "Санкт-Петербург", "Корона-чан");
-	Patient p2(Patient::MALE, 10, "Левихин", "Санкт-Петербург", "Заебался");
+	Patient p1(Patient::FEMALE, 50, "Палехова", "Санкт-Петербург", "Корона-чан");
+	Patient p2(Patient::MALE, 20, "Левихин", "Санкт-Петербург", "Заебался");
 
 	LinearList list;
 
@@ -20,13 +22,15 @@ int main()
 	list.add(p1, LinearList::FRONT);
 	list.add(p2);
 
-	list.print();
+	//list.print();
+	//list.write("res\\hospital.dat");
 
-	list.del(LinearList::BACK);
-	std::cout << "DELETED BACK" << '\n';
-	list.print();
 
-	list.del(LinearList::FRONT);
-	std::cout << "DELETED FRONT" << '\n';
-	list.print();
+	LinearList kek;
+	kek.read("res\\hospital.dat");
+	kek.print();
 }
+
+
+
+
