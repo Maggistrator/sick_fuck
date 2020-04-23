@@ -20,9 +20,9 @@ public:
 
 	int sex = 0;
 	int age = 0;
-	char last_name[256]{"Unknown"};
-	char hometown[256]{"Unknown"};
-	char diagnosis[256]{"Unknown"};
+	char last_name[256]{""};
+	char hometown[256]{""};
+	char diagnosis[256]{""};
 
 	Patient(){}
 

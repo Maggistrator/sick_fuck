@@ -5,8 +5,8 @@
  *      Author: Сова
  */
 
-#ifndef LINERLIST_H_
-#define LINERLIST_H_
+#ifndef LINEARLIST_H_
+#define LINEARLIST_H_
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
@@ -41,6 +41,16 @@ public:
 		}
 	}
 
+	const Patient& get(int i)
+	{
+		return arr[i];
+	}
+
+	int lenght()
+	{
+		return size;
+	}
+
 	void del(int side)
 	{
 		if(side == FRONT){
@@ -58,6 +68,12 @@ public:
 
 	void write(std::string file)
 	{
+		//Очищаем файл
+		std::fstream ofs;
+		ofs.open(file, std::ios::out | std::ios::trunc);
+		ofs.close();
+
+		//Записываем данные о пациентах
 		for(int i = 0; i < size; i++)
 		{
 			arr[i].write(file);
@@ -97,4 +113,4 @@ public:
 		delete [] arr;
 	}
 };
-#endif /* LINERLIST_H_ */
+#endif /* LINEARLIST_H_ */
